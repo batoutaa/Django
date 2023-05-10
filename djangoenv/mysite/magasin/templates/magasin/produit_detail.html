@@ -1,0 +1,16 @@
+{% include 'magasin/base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.min3.css' %}">
+<center>
+{% block content %}
+  <h1>{{ product.libellé }}</h1>
+  <p>{{ product.description }}</p>
+  <p>Prix: {{ product.prix }}</p>
+  <p>Type: {{ product.type }}</p>
+  <p>image: {{ product.img }}</p>
+  <p>categorie: {{ product.categorie }}</p>
+  <p>fournisseur: {{ product.fournisseur }}</p>
+<button class="btn btn-primary"><a href="{%url 'index'%}">Back</a>
+</button>
+{% endblock %}
+</center>
