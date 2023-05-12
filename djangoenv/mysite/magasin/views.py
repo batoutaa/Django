@@ -1,8 +1,8 @@
 from django.http import HttpResponseRedirect
-from .models import produit
+from .models import produit,command
 from .forms import *
 from django.shortcuts import redirect, render
-from .forms import ProduitForm, FournisseurForm,UserRegistrationForm
+from .forms import ProduitForm, FournisseurForm,UserRegistrationForm,CommandeForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
@@ -107,3 +107,41 @@ def delete_fou(request, fou_id):
         f.delete()
         return redirect('affichefou')
     return render(request, 'magasin/delete_fournisseur.html', {'fournisseur': f})
+def add_commande(request):
+    # Create an empty form for adding a new commande
+    form = CommandeForm()
+
+    if request.method == 'POST':
+        # Fill the form with the submitted data
+        form = CommandeForm(request.POST)
+
+        if form.is_valid():
+            # Save the commande instance to the database
+            commande = form.save()
+
+            # Add the selected products to the commande instance
+            for produit_id in request.POST.getlist('produits'):
+                Produit = produit.objects.get(id=produit_id)
+                commande.produits.add(Produit)
+
+            # Update the totalCde field based on the selected products' prices
+            total = sum([produit.prix for produit in commande.produits.all()])
+            commande.totalCde = total
+            commande.save()
+
+            # Redirect to the detail view of the newly created commande
+            return redirect('detailcomm', commande.pk)
+
+    context = {
+        'form': form,
+        'produits': produit.objects.all(),
+    }
+
+    return render(request, 'magasin/commande/cart.html', context)
+
+def commande_detail(request,id):
+    commande = get_object_or_404(command, pk=id)
+    context = {
+        'commande': commande
+    }
+    return render(request, 'magasin/commande/commande_detail.html', context)

@@ -22,6 +22,13 @@ MEDIA_URL= "/media/"
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static", '/var/www/static/', ]
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PORT = 25
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ahmedrekik891@gmail.com'
+EMAIL_HOST_PASSWORD = 'vdryuakozfbyykhd'
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 

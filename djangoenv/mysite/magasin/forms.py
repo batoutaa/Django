@@ -24,3 +24,7 @@ class UserRegistrationForm(UserCreationForm):
 class Meta(UserCreationForm.Meta):
     model = User
     fields = UserCreationForm.Meta.fields + ('first_name', 'last_name' , 'email')
+class CommandeForm(ModelForm):
+    class Meta:
+        model=command
+        fields="__all__"
