@@ -1,6 +1,12 @@
 from django.urls import path,include
 from . import views
-
+from django.contrib.auth.views import (
+    LogoutView, 
+    PasswordResetView, 
+    PasswordResetDoneView, 
+    PasswordResetConfirmView,
+    PasswordResetCompleteView
+)
 urlpatterns =[
     path('',views.index,name='index'),
     path('affichefou/',views.affichefou,name='affichefou'),
@@ -29,5 +35,15 @@ urlpatterns =[
 
     path('delete_fou/',views.delete_fou,name='delete_fou'),
     path('fou/<int:fou_id>/Delete', views.delete_fou, name='delete_fou'),
+    ####### Password rest #######
+    path('password-reset/', PasswordResetView.as_view(template_name='magasin/users/password_reset.html'),name='password-reset'),
+    path('password-reset/done/', PasswordResetDoneView.as_view(template_name='magasin/users/password_reset_done.html'),name='password_reset_done'),
+    path('password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='magasin/users/password_reset_confirm.html'),name='password_reset_confirm'),
+    path('password-reset-complete/',PasswordResetCompleteView.as_view(template_name='magasin/users/password_reset_complete.html'),name='password_reset_complete'), 
 
-]
+    path('password-reset/', PasswordResetView.as_view(template_name='magasin/users/password_reset.html',html_email_template_name='users/password_reset_email.html'),name='password-reset'),
+    
+
+    path("add_commande",views.add_commande,name="Commande"),
+    path('detail_commande/<int:id>/',views.commande_detail,name="detailcomm"),
+ ]
